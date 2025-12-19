@@ -31,13 +31,13 @@ const Navbar = () => {
 
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-8 text-sm text-[#1F2436]">
-            <Link href="#features" className="hover:text-[#8F9DC7] transition">
+            <Link href="/features" className="hover:text-[#8F9DC7] transition">
               Features
             </Link>
-            <Link href="#how-it-works" className="hover:text-[#8F9DC7] transition">
+            <Link href="/how-it-works" className="hover:text-[#8F9DC7] transition">
               How it Works
             </Link>
-            <Link href="#pricing" className="hover:text-[#8F9DC7] transition">
+            <Link href="/pricing" className="hover:text-[#8F9DC7] transition">
               Pricing
             </Link>
           </div>
