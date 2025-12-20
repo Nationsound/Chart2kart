@@ -117,13 +117,13 @@ const Navbar = () => {
 
   {/* Links */}
   <nav className="flex flex-col gap-6 text-white text-base">
-    <Link onClick={() => setOpen(false)} href="#features" className="hover:opacity-80">
+    <Link onClick={() => setOpen(false)} href="/features" className="hover:opacity-80">
       Features
     </Link>
-    <Link onClick={() => setOpen(false)} href="#how-it-works" className="hover:opacity-80">
+    <Link onClick={() => setOpen(false)} href="/how-it-works" className="hover:opacity-80">
       How it Works
     </Link>
-    <Link onClick={() => setOpen(false)} href="#pricing" className="hover:opacity-80">
+    <Link onClick={() => setOpen(false)} href="/pricing" className="hover:opacity-80">
       Pricing
     </Link>
     <Link onClick={() => setOpen(false)} href="/login" className="hover:opacity-80">

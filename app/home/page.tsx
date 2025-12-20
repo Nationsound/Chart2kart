@@ -5,6 +5,7 @@ import StoreImages from '../index/storeImages/StoreImages'
 import Vision from '../index/our vision/Vision'
 import WhyUs from '../index/why us/WhyUs'
 import FAQs from '../index/faqs/FAQs'
+import Banner from '../index/banner/Banner'
 
 const page = () => {
   return (
@@ -20,6 +21,9 @@ const page = () => {
         </div>
         <div>
           <Vision />
+        </div>
+        <div>
+          <Banner />
         </div>
         <div>
           <WhyUs />
