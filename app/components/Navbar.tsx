@@ -51,7 +51,7 @@ const Navbar = () => {
               Login
             </Link>
             <Link
-              href="/signup"
+              href="/create-store"
               className="px-5 py-2 rounded-xl bg-[#5E6FB8] text-white text-sm font-medium hover:bg-[#4C5AA3] transition shadow-sm"
             >
               Create Store
@@ -134,7 +134,7 @@ const Navbar = () => {
   {/* CTA */}
   <div className="mt-auto">
     <Link
-      href="/signup"
+      href="/create-store"
       onClick={() => setOpen(false)}
       className="block text-center px-5 py-3 rounded-xl bg-white text-[#8F9DC7] font-semibold hover:bg-[#F3F5FB] transition"
     >
