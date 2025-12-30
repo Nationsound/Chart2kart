@@ -1,28 +1,154 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useStore } from "../../context/StoreContext";
+import { FaShoppingCart } from "react-icons/fa";
 
-export default function Step4Preview({ onBack }: { onBack: () => void }) {
+interface Props {
+  onBack: () => void;
+}
+
+export default function Step4Preview({ onBack }: Props) {
+  const { store, toggleTheme } = useStore();
+  const [cartItems, setCartItems] = useState<any[]>([]);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const handleAddToCart = (product: any) => {
+    if (!cartItems.find((item) => item.id === product.id)) {
+      setCartItems([...cartItems, product]);
+    }
+    setDrawerOpen(true);
+  };
+
+  const handleRemoveFromCart = (id: string) => {
+    setCartItems(cartItems.filter((item) => item.id !== id));
+  };
+
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      className="bg-white p-8 rounded-xl shadow"
+    <div
+      className={`min-h-screen p-6 rounded-xl transition-colors ${
+        store.theme === "dark" ? "bg-gray-900 text-white" : "bg-gray-50 text-gray-900"
+      }`}
     >
-      <h2 className="text-2xl font-bold mb-6">Preview Your Store</h2>
-
-      <div className="h-64 border rounded mb-6 flex items-center justify-center">
-        Store preview here
-      </div>
-
-      <div className="flex justify-between">
-        <button onClick={onBack} className="text-gray-500">
-          Back
-        </button>
-        <button className="bg-green-600 text-white px-6 py-3 rounded-lg">
-          Publish Store
+      {/* Header */}
+      <div className="flex justify-between items-center mb-8">
+        <h2 className="text-3xl font-bold">{store.storeName || "Your Store"}</h2>
+        <button
+          onClick={toggleTheme}
+          className="px-4 py-2 bg-[#4C5AA3] text-white rounded hover:bg-[#3a487f] transition"
+        >
+          Toggle Theme
         </button>
       </div>
-    </motion.div>
+
+      {/* Store Description */}
+      <p className="mb-6 text-gray-600 dark:text-gray-300">
+        {store.description || "No description yet."}
+      </p>
+
+      {/* Product Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {store.products.length === 0 && (
+          <p className="col-span-full text-center text-gray-500 dark:text-gray-400">
+            No products added yet.
+          </p>
+        )}
+
+        {store.products.map((product) => (
+          <motion.div
+            key={product.id}
+            whileHover={{ scale: 1.03 }}
+            className={`border rounded-lg overflow-hidden shadow-lg flex flex-col ${
+              store.theme === "dark" ? "bg-gray-800 border-gray-700" : "bg-white"
+            }`}
+          >
+            {product.image && (
+              <div className="relative h-48 w-full">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="object-cover w-full h-full"
+                />
+              </div>
+            )}
+            <div className="p-4 flex flex-col flex-1 justify-between">
+              <div>
+                <h3 className="font-semibold text-lg">{product.name}</h3>
+                <p className="text-gray-500 dark:text-gray-300">
+                  ₦{product.price.toLocaleString()}
+                </p>
+              </div>
+              <button
+                onClick={() => handleAddToCart(product)}
+                className="mt-4 flex items-center justify-center gap-2 bg-green-500 text-white py-2 rounded hover:bg-green-600 transition"
+              >
+                <FaShoppingCart /> Add to Cart
+              </button>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Cart Drawer */}
+      <AnimatePresence>
+        {drawerOpen && (
+          <motion.div
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            className="fixed top-0 right-0 w-80 h-full bg-white dark:bg-gray-800 shadow-2xl p-6 z-50"
+          >
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="font-bold text-xl flex items-center gap-2">
+                <FaShoppingCart className="text-green-500" /> Your Cart
+              </h3>
+              <button
+                onClick={() => setDrawerOpen(false)}
+                className="text-red-500 font-semibold"
+              >
+                Close
+              </button>
+            </div>
+
+            <div className="space-y-3 overflow-y-auto max-h-[70%]">
+              {cartItems.length === 0 && <p>Your cart is empty.</p>}
+              {cartItems.map((item) => (
+                <div
+                  key={item.id}
+                  className="flex justify-between items-center border-b pb-2"
+                >
+                  <span>{item.name}</span>
+                  <div className="flex gap-2 items-center">
+                    <span>₦{item.price.toLocaleString()}</span>
+                    <button
+                      onClick={() => handleRemoveFromCart(item.id)}
+                      className="text-red-500 hover:underline"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <button className="mt-6 w-full bg-[#4C5AA3] text-white py-2 rounded hover:bg-[#3a487f] transition">
+              Checkout
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Navigation */}
+      <div className="mt-8">
+        <button
+          onClick={onBack}
+          className="px-6 py-2 rounded border text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+        >
+          ← Back
+        </button>
+      </div>
+    </div>
   );
 }

@@ -6,6 +6,7 @@ import Step1StoreInfo from "../create-store/steps/Step1StoreInfo";
 import Step2Products from "../create-store/steps/Step2Products";
 import Step3Design from "../create-store/steps/Step3Design";
 import Step4Preview from "../create-store/steps/Step4Preview";
+import DebugStore from "../components/DebugStore";
 
 export default function CreateStorePage() {
   const [step, setStep] = useState(1);
@@ -33,6 +34,9 @@ export default function CreateStorePage() {
           />
         )}
         {step === 4 && <Step4Preview onBack={() => setStep(3)} />}
+      <div className="mt-10">
+      <DebugStore />
+      </div>
       </div>
     </div>
   );
